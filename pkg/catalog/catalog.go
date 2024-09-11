@@ -10,7 +10,7 @@ type Cake struct {
 	Image       string  `json:"image"`  // URL of the image
 }
 
-var cakes = []Cake{
+var Cakes = []Cake{
 	{
 		ID:          "1",
 		Title:       "Chocolate Forest",
@@ -38,8 +38,4 @@ var cakes = []Cake{
 		Price:       600.0,
 		Image:       "http://cdn.images.cake3.png",
 	},
-}
-
-func getCakes(c *gin.Context) []Cake {
-	return cakes
 }
