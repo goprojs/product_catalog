@@ -23,6 +23,21 @@ func getCakeByID(c *gin.Context) {
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "cake not found"})
 }
+func postCakeByID(c *gin.Context) {
+    var newCake catalog.Cake
+
+    
+    if err := c.BindJSON(&newCake); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
+        return
+    }
+
+   
+    catalog.Cakes = append(catalog.Cakes, newCake)
+
+
+    c.IndentedJSON(http.StatusCreated, newCake)
+}
 
 func main() {
 	fmt.Println("ready to go")
@@ -31,6 +46,6 @@ func main() {
 	router := gin.Default()
 	router.GET("/cakes", getCakes)
 	router.GET("/cake/:id", getCakeByID)
-
+        router.POST("/cakes", postCakeByID)
 	router.Run("localhost:8080")
 }
