@@ -12,6 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+// Set up the Gin router with routes
 func setupRouter() *gin.Engine {
 	router := gin.Default()
 	router.GET("/cakes", getCakes)
@@ -37,8 +38,8 @@ func TestGetCakes(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/cakes", nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 200, w.Code)
-	assert.Contains(t, w.Body.String(), "Chocolate Cake")
+	assert.Equal(t, 200, w.Code)                      // Verify status code
+	assert.Contains(t, w.Body.String(), "Chocolate Cake") // Verify response contains mock data
 	assert.Contains(t, w.Body.String(), "Vanilla Cake")
 }
 
@@ -54,15 +55,15 @@ func TestGetCakeByID(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/cake/1", nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 200, w.Code)
-	assert.Contains(t, w.Body.String(), "Chocolate Cake")
+	assert.Equal(t, 200, w.Code)                      // Verify status code
+	assert.Contains(t, w.Body.String(), "Chocolate Cake") // Verify the correct cake is retrieved
 
 	// Test for non-existing cake
 	w = httptest.NewRecorder()
 	req, _ = http.NewRequest("GET", "/cake/999", nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 404, w.Code)
+	assert.Equal(t, 404, w.Code)                      // Verify status code for not found
 	assert.Contains(t, w.Body.String(), "cake not found")
 }
 
@@ -88,8 +89,8 @@ func TestPostCakeByID(t *testing.T) {
 	req.Header.Set("Content-Type", "application/json")
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 201, w.Code)
-	assert.Contains(t, w.Body.String(), "Strawberry Cake")
+	assert.Equal(t, 201, w.Code)                          // Verify status code
+	assert.Contains(t, w.Body.String(), "Strawberry Cake") // Verify response contains the new cake
 }
 
 // Test DELETE /cake/:id
@@ -104,14 +105,14 @@ func TestDeleteCakeByID(t *testing.T) {
 	req, _ := http.NewRequest("DELETE", "/cake/1", nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 200, w.Code)
-	assert.Contains(t, w.Body.String(), "cake deleted")
+	assert.Equal(t, 200, w.Code)                         // Verify status code
+	assert.Contains(t, w.Body.String(), "cake deleted") // Verify cake was deleted
 
 	// Test deleting a non-existing cake
 	w = httptest.NewRecorder()
 	req, _ = http.NewRequest("DELETE", "/cake/999", nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 404, w.Code)
-	assert.Contains(t, w.Body.String(), "cake not found")
+	assert.Equal(t, 404, w.Code)                          // Verify status code for not found
+	assert.Contains(t, w.Body.String(), "cake not found") // Verify response contains correct message
 }
