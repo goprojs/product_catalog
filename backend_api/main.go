@@ -22,7 +22,7 @@ var cakeCollection *mongo.Collection
 // Initialize MongoDB client and connect to MongoDB Atlas
 func initMongoDB() error {
 	// Replace with your MongoDB Atlas connection string
-	uri := "mongodb+srv://7arabinda:<j5IIGGpnpZH2fGhe>@cake-shop-db.4psjg.mongodb.net/?retryWrites=true&w=majority&appName=cake-shop-db"
+	uri := "mongodb+srv://7arabinda:j5IIGGpnpZH2fGhe@cake-shop-db.4psjg.mongodb.net/?retryWrites=true&w=majority&appName=cake-shop-db"
 
 	// Set MongoDB client options
 	clientOptions := options.Client().ApplyURI(uri)
