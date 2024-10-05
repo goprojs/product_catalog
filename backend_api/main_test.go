@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -38,7 +39,7 @@ func TestGetCakes(t *testing.T) {
 	req, _ := http.NewRequest("GET", "/cakes", nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 200, w.Code)                      // Verify status code
+	assert.Equal(t, 200, w.Code)                          // Verify status code
 	assert.Contains(t, w.Body.String(), "Chocolate Cake") // Verify response contains mock data
 	assert.Contains(t, w.Body.String(), "Vanilla Cake")
 }
@@ -49,21 +50,23 @@ func TestGetCakeByID(t *testing.T) {
 	catalog.Cakes = mockCakes
 
 	router := setupRouter()
+	existingCakeID := "1"
+	nonExistingCakeID := "999"
 
 	// Test for existing cake
 	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/cake/1", nil)
+	req, _ := http.NewRequest("GET", "/cake/"+existingCakeID, nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 200, w.Code)                      // Verify status code
+	assert.Equal(t, 200, w.Code)                          // Verify status code
 	assert.Contains(t, w.Body.String(), "Chocolate Cake") // Verify the correct cake is retrieved
 
 	// Test for non-existing cake
 	w = httptest.NewRecorder()
-	req, _ = http.NewRequest("GET", "/cake/999", nil)
+	req, _ = http.NewRequest("GET", "/cake/"+nonExistingCakeID, nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 404, w.Code)                      // Verify status code for not found
+	assert.Equal(t, 404, w.Code) // Verify status code for not found
 	assert.Contains(t, w.Body.String(), "cake not found")
 }
 
@@ -84,12 +87,13 @@ func TestPostCakeByID(t *testing.T) {
 
 	// Convert newCake to JSON
 	cakeJSON, _ := json.Marshal(newCake)
+	fmt.Println(string(cakeJSON))
 	w := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/cakes", bytes.NewBuffer(cakeJSON))
 	req.Header.Set("Content-Type", "application/json")
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 201, w.Code)                          // Verify status code
+	assert.Equal(t, 201, w.Code)                           // Verify status code
 	assert.Contains(t, w.Body.String(), "Strawberry Cake") // Verify response contains the new cake
 }
 
@@ -105,12 +109,12 @@ func TestDeleteCakeByID(t *testing.T) {
 	req, _ := http.NewRequest("DELETE", "/cake/1", nil)
 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, 200, w.Code)                         // Verify status code
+	assert.Equal(t, 200, w.Code)                        // Verify status code
 	assert.Contains(t, w.Body.String(), "cake deleted") // Verify cake was deleted
 
 	// Test deleting a non-existing cake
 	w = httptest.NewRecorder()
-	req, _ = http.NewRequest("DELETE", "/cake/999", nil)
+	req, _ = http.NewRequest("DELETE", "/cake/67003f0603f37f26e641ef71", nil)
 	router.ServeHTTP(w, req)
 
 	assert.Equal(t, 404, w.Code)                          // Verify status code for not found

@@ -8,9 +8,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"github.com/goprojs/product_catalog/pkg/catalog"
 )
@@ -115,30 +115,34 @@ func postCakeByID(c *gin.Context) {
 }
 
 // Delete a cake by ID
-func deleteCakeByID(c *gin.Context) {
-	id := c.Param("id")
+func deleteCakeByField(c *gin.Context) {
+	// Get the field and value from query parameters
+	field := c.Query("field") // Field to filter on (e.g., "id" or "name")
+	value := c.Query("value") // Value of the field to delete
 
-	// Convert the id string to a MongoDB ObjectID
-	objectID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+	if field == "" || value == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Field and value parameters are required"})
 		return
 	}
 
-	// Delete the cake with the specified ID
-	result, err := cakeCollection.DeleteOne(context.Background(), bson.M{"_id": objectID})
+	// Create a filter based on the specified field and value
+	filter := bson.M{field: value}
+
+	// Delete the cake with the specified field and value
+	result, err := cakeCollection.DeleteOne(context.Background(), filter)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error deleting cake"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprintf("Error deleting cake: %+v", err)})
 		return
 	}
 
 	if result.DeletedCount == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"message": "cake not found"})
+		c.JSON(http.StatusNotFound, gin.H{"message": "Cake not found"})
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{"message": "cake deleted"})
+	c.IndentedJSON(http.StatusOK, gin.H{"message": "Cake deleted"})
 }
+
 
 func main() {
 	// Initialize MongoDB client with MongoDB Atlas
