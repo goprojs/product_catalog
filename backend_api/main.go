@@ -144,6 +144,7 @@ func deleteCakeByField(c *gin.Context) {
 }
 
 
+
 func main() {
 	// Initialize MongoDB client with MongoDB Atlas
 	if err := initMongoDB(); err != nil {
@@ -157,8 +158,9 @@ func main() {
 	router.GET("/cakes", getCakes)
 	router.GET("/cake/:id", getCakeByID)
 	router.POST("/cakes", postCakeByID)
-	router.DELETE("/cake/:id", deleteCakeByID)
+	router.DELETE("/cake", deleteCakeByField) // Updated route for deleting by field
 
 	// Start the server on localhost:8080
 	router.Run("localhost:8080")
 }
+
