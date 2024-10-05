@@ -143,8 +143,6 @@ func deleteCakeByField(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"message": "Cake deleted"})
 }
 
-
-
 func main() {
 	// Initialize MongoDB client with MongoDB Atlas
 	if err := initMongoDB(); err != nil {
@@ -163,4 +161,3 @@ func main() {
 	// Start the server on localhost:8080
 	router.Run("localhost:8080")
 }
-
