@@ -100,6 +100,7 @@ func getCakeByID(c *gin.Context) {
 func postCakeByID(c *gin.Context) {
 	var newCake catalog.Cake
 
+
 	// Bind the JSON body to the newCake struct
 	if err := c.BindJSON(&newCake); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
@@ -144,6 +145,7 @@ func deleteCakeByField(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, gin.H{"message": "Cake deleted"})
+
 }
 
 func main() {
@@ -159,8 +161,11 @@ func main() {
 	router.GET("/cakes", getCakes)
 	router.GET("/cake/:id", getCakeByID)
 	router.POST("/cakes", postCakeByID)
+
 	router.DELETE("/cake", deleteCakeByField) // Updated route for deleting by field
 
 	// Start the server on localhost:8080
+
 	router.Run("localhost:8080")
+
 }
