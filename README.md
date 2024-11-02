@@ -28,3 +28,15 @@ After setting up the cluster:
 2. Choose **Connect your application** and copy the **connection string** provided. It should look like this:
 
 
+3. Replace `<username>`, `<password>`, and `<database>` with your actual credentials and database name.
+
+### 3. Set Up Environment Variables
+
+1. In the root directory of your project, create a `.env` file (if it doesn’t already exist).
+2. Add your MongoDB URI as follows:
+
+```env
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.mongodb.net/catalog?retryWrites=true&w=majority
+
+
+
