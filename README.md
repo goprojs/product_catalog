@@ -1,6 +1,7 @@
 # product_catalog
 This repo contains a product catalog site for a cake shop
-
+#How to connect to MongoDB
+---
 1. Create a MongoDB Atlas Cluster
   1.Go to MongoDB Atlas and sign in.
   2.Create a new project if you haven't already.
