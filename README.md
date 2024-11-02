@@ -6,7 +6,7 @@ This repository demonstrates connecting a Go application to MongoDB Atlas using 
 
 ## Prerequisites
 
-- [Go](https://golang.org/dl/) (1.18 or later recommended)
+- [Go](https://golang.org/dl/) (1.22.6)
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account and cluster setup
 - MongoDB Go Driver (`go.mongodb.org/mongo-driver/mongo`)
 
