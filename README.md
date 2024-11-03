@@ -1,6 +1,6 @@
 # product_catalog
 This repo contains a product catalog site for a cake shop
-# MongoDB Atlas Connection in Go Application
+# MongoDB Atlas Connection 
 
 This repository demonstrates connecting a Go application to MongoDB Atlas using the Gin framework and MongoDB Go Driver.
 
