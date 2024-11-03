@@ -1,13 +1,13 @@
 package catalog
 
 type Cake struct {
-	ID          string  `json:"id"`
-	Title       string  `json:"title"`
-	Description string  `json:"description"`
-	Category    string  `json:"category"`
-	Price       float64 `json:"price"`
-	Weight      float64 `json:"weight"` // Weight in gms
-	Image       string  `json:"image"`  // URL of the image
+	ID          string   `json:"id"`
+	Title       string   `json:"title"`
+	Description string   `json:"description"`
+	Category    string   `json:"category"`
+	Price       float64  `json:"price"`
+	Weight      float64  `json:"weight"` // Weight in grams
+	Images      []string `json:"images"` // Slice of image URLs
 }
 
 var Cakes = []Cake{
@@ -18,24 +18,24 @@ var Cakes = []Cake{
 		Description: "Filled with chocolate",
 		Weight:      500,
 		Price:       530.0,
-		Image:       "http://cdn.images.cake1.png",
+		Images:      []string{"http://cdn.images.cake1.png"},
 	},
 	{
 		ID:          "2",
-		Title:       "Chocolate Vanila",
+		Title:       "Chocolate Vanilla",
 		Category:    "Birthday",
-		Description: "Filled with vanila chocolate",
+		Description: "Filled with vanilla chocolate",
 		Weight:      500,
 		Price:       420.0,
-		Image:       "http://cdn.images.cake2.png",
+		Images:      []string{"http://cdn.images.cake2.png"},
 	},
 	{
 		ID:          "3",
 		Title:       "Red Velvet",
-		Category:    "Annivesary",
+		Category:    "Anniversary",
 		Description: "Filled with red velvet",
 		Weight:      500,
 		Price:       600.0,
-		Image:       "http://cdn.images.cake3.png",
+		Images:      []string{"http://cdn.images.cake3.png"},
 	},
 }
