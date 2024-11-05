@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -22,11 +23,17 @@ var cakeCollection *mongo.Collection
 
 // Initialize MongoDB client and connect to MongoDB Atlas
 func initMongoDB() error {
-	// Replace with your MongoDB Atlas connection string
+	// Load environment variables from local.env
+	if err := godotenv.Load("local.env"); err != nil {
+		fmt.Println("Warning: No local.env file found, relying on system environment variables")
+	}
+
+	// Get MongoDB connection string from environment variable
 	uri := os.Getenv("MONGODB_URI")
 	if uri == "" {
 		return fmt.Errorf("MONGODB_URI is not set")
 	}
+
 	// Set MongoDB client options
 	clientOptions := options.Client().ApplyURI(uri)
 
@@ -100,7 +107,6 @@ func getCakeByID(c *gin.Context) {
 func postCakeByID(c *gin.Context) {
 	var newCake catalog.Cake
 
-
 	// Bind the JSON body to the newCake struct
 	if err := c.BindJSON(&newCake); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
@@ -118,7 +124,6 @@ func postCakeByID(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, gin.H{"insertedID": result.InsertedID})
 }
 
-// Delete a cake by ID
 func deleteCakeByField(c *gin.Context) {
 	// Get the field and value from query parameters
 	field := c.Query("field") // Field to filter on (e.g., "id" or "name")
@@ -145,7 +150,6 @@ func deleteCakeByField(c *gin.Context) {
 	}
 
 	c.IndentedJSON(http.StatusOK, gin.H{"message": "Cake deleted"})
-
 }
 
 func main() {
@@ -161,11 +165,8 @@ func main() {
 	router.GET("/cakes", getCakes)
 	router.GET("/cake/:id", getCakeByID)
 	router.POST("/cakes", postCakeByID)
-
 	router.DELETE("/cake", deleteCakeByField) // Updated route for deleting by field
 
 	// Start the server on localhost:8080
-
 	router.Run("localhost:8080")
-
 }
